@@ -8,7 +8,7 @@ kernel = np.ones((3,3), np.uint8)
 img = cv2.imread("foot.jpg")
 
 #把彩色的圖片轉成黑白
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #參數：物件、轉換顏色
 
 #將圖片變模糊(高斯模糊)
 blur = cv2.GaussianBlur(img, (15, 15), 100)
