@@ -2,12 +2,12 @@ import cv2
 import numpy as np
 
 def empty(v):
-    print("")
+    pass
 
-img = cv2.imread("roger.jpg")
-img = cv2.resize(img, (0, 0), fx = 0.5, fy = 0.5)
+img = cv2.imread('roger.jpg')
+img = cv2.resize(img, (0, 0), fx=0.5, fy=0.5)
 
-#追蹤條
+#控制畫面
 cv2.namedWindow("TrackBar")
 cv2.resizeWindow("TrackBar", 640, 320) #參數：要設定物件的名稱、寬度、高度
 
@@ -34,12 +34,17 @@ while(True):
     v_min = cv2.getTrackbarPos("Val Min", "TrackBar")
     v_max = cv2.getTrackbarPos("Val Max", "TrackBar")
     print(h_min, h_max, s_min, s_max, v_min, v_max)
+
+    #最大和最小值
     lower = np.array([h_min, s_min, v_min])
     upper = np.array([h_max, s_max, v_max])
-    cv2.inRange(hsv, lower, upper)
 
+    mask = cv2.inRange(hsv, lower, upper)
+    #過濾橘色
+    result = cv2.bitwise_and(img, img, mask = mask)
+
+    cv2.imshow("img", img)
+    cv2.imshow("hsv", hsv)
+    cv2.imshow("mask", mask)
+    cv2.imshow("result", result)
     cv2.waitKey(1)
-
-cv2.imshow("img", img)
-cv2.imshow("hsv", hsv)
-cv2.waitKey(0)
