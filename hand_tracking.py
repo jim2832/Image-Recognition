@@ -1,6 +1,9 @@
+#coding=utf-8
 import cv2
+import time
 import numpy as np
 import mediapipe as mp
+from mediapipe import solutions
 from PIL import Image, ImageDraw, ImageFont
 
 #印出中文
@@ -14,7 +17,7 @@ def cv2ImgAddText(img, text, left, top, textColor=(0, 255, 0), textSize=20):
     return cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #取得視訊鏡頭
 mp_hands = mp.solutions.hands #使用手部追蹤的模型
 hands = mp_hands.Hands()
 
@@ -24,6 +27,10 @@ mp_draw = mp.solutions.drawing_utils
 hand_landmarks_style = mp_draw.DrawingSpec(color = (0, 0, 255), thickness = 5)
 #設定線的樣式(規格)
 hand_connection_style = mp_draw.DrawingSpec(color = (0, 255, 0), thickness = 10)
+
+#設定FPS的變數
+pre_time = 0
+cur_time = 0
 
 while(1):
     ret, frame = cap.read()
@@ -43,16 +50,28 @@ while(1):
                 for i, lm in enumerate(hand_landmarks.landmark):
                     x_pos = lm.x * frame_width #真正的x座標
                     y_pos = lm.y * frame_height #真正的y座標
+
                     #在每個點上加上編號
-                    #cv2.putText(frame, str(i), (int(x_pos)-25, int(y_pos)+5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
+                    cv2.putText(frame, str(i), (int(x_pos)-25, int(y_pos)+5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
+
+                    #手指最前端
                     # if(i % 4 == 0 and i != 0):
                     #     cv2.circle(frame, (int(x_pos), int(y_pos)), 10, (0,0,255), cv2.FILLED)
-                    if(i == 4):
-                        cv2. #(frame, "讚啦", (int(x_pos)-25, int(y_pos)+5), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,0,255), 2)
+
+                    #大拇指
+                    # if(i == 4):
+                    #     cv2.putText(frame, "NICE", (int(x_pos)-35, int(y_pos)-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
+
                     print("第", i+1, "個點")
                     print("x座標: ", int(x_pos))
                     print("y座標: ", int(y_pos))
                     print("\n")
+        
+        #取得FPS
+        cur_time = time.time()
+        fps = 1/(cur_time - pre_time)
+        pre_time = cur_time
+        cv2.putText(frame, f"FPS: {int(fps)}", (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 3)
 
         cv2.imshow("frame", frame)
 
