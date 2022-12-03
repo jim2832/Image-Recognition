@@ -43,7 +43,7 @@ while(1):
         frame_height = frame.shape[0]
         frame_width = frame.shape[1]
 
-        if(result.multi_hand_landmarks):
+        if(result.multi_hand_landmarks): #所有手部的點
             for hand_landmarks in result.multi_hand_landmarks:
                 mp_draw.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS, hand_landmarks_style, hand_connection_style) #參數：要畫的目的、手部的點、有無連接線、點的樣式、線的樣式
                 #印出21個點的座標
@@ -62,10 +62,10 @@ while(1):
                     # if(i == 4):
                     #     cv2.putText(frame, "NICE", (int(x_pos)-35, int(y_pos)-20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
 
-                    print("第", i+1, "個點")
-                    print("x座標: ", int(x_pos))
-                    print("y座標: ", int(y_pos))
-                    print("\n")
+                    print("第",i+1,"個點\t","x:",int(x_pos)," y:",int(y_pos),"\n")
+                    #print(f"第{i+1}個點\tx:{int(x_pos)} y:{int(y_pos)}\n")
+                    if(i == 20):
+                        print("\n\n\n")
         
         #取得FPS
         cur_time = time.time()

@@ -10,11 +10,12 @@ face_classifier = cv2.CascadeClassifier("face_detect.xml") #人臉識別分類�
 face_rect = face_classifier.detectMultiScale(gray, 1.1, 3) #物件、縮小倍率、目標要被偵測到幾次才算完成
 
 print("face detected: ", len(face_rect)) #印偵測到幾張臉
-#print(face_rect)
+print(face_rect)
 
 #偵測
 for (x, y, w, h) in face_rect:
     cv2.rectangle(img, (x, y), (x+w, y+h), color, 1) #畫出正方形
 
 cv2.imshow("img", img)
+#cv2.imwrite("out.jpg", img)
 cv2.waitKey(0)

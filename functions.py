@@ -5,7 +5,7 @@ import numpy as np
 kernel = np.ones((3,3), np.uint8)
 
 #讀取圖片
-img = cv2.imread("foot.jpg")
+img = cv2.imread("img/foot.jpg")
 
 #把彩色的圖片轉成黑白
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #參數：物件、轉換顏色
