@@ -1,6 +1,6 @@
 import cv2
 
-img = cv2.imread("shape.jpg")
+img = cv2.imread("img/shape.jpg")
 img_contour = img.copy() #複製一張圖片給輪廓用
 
 #把圖片轉成黑白 因為檢測時並不需要顏色
